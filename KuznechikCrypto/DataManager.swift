@@ -44,20 +44,5 @@ class DataManager {
     
     private init() {}
     
-    
-    func getPartOfFullKey(key fullKey: String) -> [String] {
-        
-        var pairOfKyes = [String]()
-        
-        let halfKey: Int = fullKey.count / 2
-        let firstKey = fullKey[fullKey.startIndex..<fullKey.index(fullKey.startIndex, offsetBy: halfKey)]
-        let secondKey = fullKey[fullKey.index(fullKey.startIndex, offsetBy: halfKey)..<fullKey.endIndex]
-        
-        pairOfKyes.append(String(firstKey))
-        pairOfKyes.append(String(secondKey))
-        
-        return pairOfKyes
-    }
-    
 }
 
