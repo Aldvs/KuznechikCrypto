@@ -7,5 +7,30 @@
 
 import Foundation
 
-print("Hello, World!")
+//MARK: - РАЗВЕРТКА КЛЮЧЕЙ
+
+//Общий ключ длинной 256 бит
+
+let fullKey = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef"
+
+let firstKey = "8899aabbccddeeff0011223344556677"
+let secondKey = "fedcba98765432100123456789abcdef"
+
+//Итерационные константы С (128 бит)
+
+let iterativeOne = "6ea276726c487ab85d27bd10dd849401"
+let iterativeTwo = "dc87ece4d890f4b3ba4eb92079cbeb02"
+let iterativeThree = "b2259a96b4d88e0be7690430a44f7f03"
+let iterativeFour = "7bcd1b0b73e32ba5b79cb140f2551504"
+let iterativeFive = "156f6d791fab511deabb0c502fd18105"
+let iterativeSix = "a74af7efab73df160dd208608b9efe06"
+let iterativeSeven = "c9e8819dc73ba5ae50f5b570561a6a07"
+let iterativeEight = "f6593616e6055689adfba18027aa2a08"
+
+
+
+//MARK: - АЛГОРИТМ ШИФРОВАНИЯ
+let openText = "1122334455667700ffeeddccbbaa9988"
+
+
 
