@@ -25,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		84257AE727DC89C400C6440B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		84257AE927DD1D9900C6440B /* test.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = test.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8449A73427DA00B20096DAD2 /* KuznechikCrypto */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = KuznechikCrypto; sourceTree = BUILT_PRODUCTS_DIR; };
 		8449A73727DA00B20096DAD2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -43,6 +44,7 @@
 		8449A72B27DA00B10096DAD2 = {
 			isa = PBXGroup;
 			children = (
+				84257AE927DD1D9900C6440B /* test.playground */,
 				8449A73627DA00B20096DAD2 /* KuznechikCrypto */,
 				8449A73527DA00B20096DAD2 /* Products */,
 			);
