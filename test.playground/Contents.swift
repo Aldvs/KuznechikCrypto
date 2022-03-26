@@ -20,8 +20,10 @@ import Cocoa
 //
 ////    return pairOfKyes
 ////}
-
-
+func getXOR(from firstVect: UInt8, and secondVect: UInt8) -> UInt8 {
+    firstVect ^ secondVect
+}
+getXOR(from: 0b00001100, and: 0b11111111)
 
 
 

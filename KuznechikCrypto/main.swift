@@ -131,9 +131,11 @@ var iterC: [[UInt8]] = []
 // массив для хранения ключей шифрования K (10)
 var iterK: [[UInt8]] = []
 
-
 //ФУНКЦИЯ X
 
+func getXOR(from firstVect: UInt8, and secondVect: UInt8) -> UInt8 {
+    firstVect ^ secondVect
+}
 //ФУНКЦИЯ S
 
 //ФУНКЦИЯ L
