@@ -134,7 +134,7 @@ var iterK: [[UInt8]] = []
 //ФУНКЦИЯ X
 
 func getXOR(from firstVect: [UInt8], and secondVect: [UInt8]) -> [UInt8] {
-    var result: [UInt8]
+    var result: [UInt8] = []
     for i in 0..<16 {
         result[i] = firstVect[i] ^ secondVect[i]
     }
