@@ -113,14 +113,32 @@ func getS(from inData: [UInt8]) -> [UInt8] {
     }
     return outData
 }
+
+func getReverseS(from inData: [UInt8]) -> [UInt8] {
+    var outData: [UInt8] = []
+    for i in 0..<16 {
+        outData.append(reversePi[Int(inData[i])])
+    }
+    return outData
+}
+
+
+
 var testVect = getXOR(from: aTestVect, and: kTestVect)
+var newVect = getS(from: testVect)
+getReverseS(from: newVect)
 
-getS(from: testVect)
 
-//e9
-let h2 = "E9"
+//16 V 10
+let h2 = "a5"
 let d4 = Int(h2, radix: 16)!
 print(d4)
+
+//10 v 16
+let d3 = 126
+let h1 = String(d3, radix: 16)
+print(h1)
+
 //func getXOR(from firstVect: [UInt8], and secondVect: [UInt8]) -> [UInt8] {
 //    var result: [UInt8] = []
 //    for i in 0..<16 {

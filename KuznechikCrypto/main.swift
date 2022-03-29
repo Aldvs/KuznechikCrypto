@@ -131,8 +131,7 @@ var iterC: [[UInt8]] = []
 // массив для хранения ключей шифрования K (10)
 var iterK: [[UInt8]] = []
 
-//ФУНКЦИЯ X
-
+//ФУНКЦИЯ XOR
 func getXOR(from firstVect: [UInt8], and secondVect: [UInt8]) -> [UInt8] {
     var result: [UInt8] = []
     for i in 0..<16 {
@@ -141,11 +140,20 @@ func getXOR(from firstVect: [UInt8], and secondVect: [UInt8]) -> [UInt8] {
     return result
 }
 
-//ФУНКЦИЯ S
+//ФУНКЦИЯ S ПРЕОБРАЗОВАНИЯ
 func getS(from inData: [UInt8]) -> [UInt8] {
     var outData: [UInt8] = []
     for i in 0..<16 {
         outData.append(pi[Int(inData[i])])
+    }
+    return outData
+}
+
+//ФУНКЦИЯ ОБРАТНОГО S ПРЕОБРАЗОВАНИЯ
+func getReverseS(from inData: [UInt8]) -> [UInt8] {
+    var outData: [UInt8] = []
+    for i in 0..<16 {
+        outData.append(reversePi[Int(inData[i])])
     }
     return outData
 }
