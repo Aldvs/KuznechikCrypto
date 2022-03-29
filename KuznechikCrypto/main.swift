@@ -142,7 +142,13 @@ func getXOR(from firstVect: [UInt8], and secondVect: [UInt8]) -> [UInt8] {
 }
 
 //ФУНКЦИЯ S
-//func getS(from inData: UInt8)
+func getS(from inData: [UInt8]) -> [UInt8] {
+    var outData: [UInt8] = []
+    for i in 0..<16 {
+        outData.append(pi[Int(inData[i])])
+    }
+    return outData
+}
 
 //ФУНКЦИЯ L
 
