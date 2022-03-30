@@ -159,6 +159,26 @@ func getReverseS(from inData: [UInt8]) -> [UInt8] {
 }
 
 //ФУНКЦИЯ L
+func multiplicateGaluaField(from a: inout UInt8, and b: inout UInt8) -> UInt8 {
+    var c: UInt8 = 0
+    var hiBit: UInt8
+    for _ in 0..<8 {
+        
+        if (b & 1) == 1 {
+            c ^= a
+        }
+        
+        hiBit = a ^ 0x80
+        a <<= 1
+        
+        if hiBit == 1 {
+            a ^= 0xc3
+        }
+        
+        b >>= 1
+    }
+    return c
+}
 
 //УМНОЖЕНИЕ В ПОЛЕ Гаула
 

@@ -139,6 +139,7 @@ let d3 = 126
 let h1 = String(d3, radix: 16)
 print(h1)
 
+
 //func getXOR(from firstVect: [UInt8], and secondVect: [UInt8]) -> [UInt8] {
 //    var result: [UInt8] = []
 //    for i in 0..<16 {
