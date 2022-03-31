@@ -139,7 +139,12 @@ let d3 = 126
 let h1 = String(d3, radix: 16)
 print(h1)
 
+let h4 = "80"
+let b4 = String(Int(h4, radix: 16)!, radix: 2)
+print(b4) //
 
+var intern: [UInt8] = Array(repeating: 0x00, count: 16)
+print(intern)
 //func getXOR(from firstVect: [UInt8], and secondVect: [UInt8]) -> [UInt8] {
 //    var result: [UInt8] = []
 //    for i in 0..<16 {

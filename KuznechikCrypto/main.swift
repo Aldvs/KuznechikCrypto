@@ -121,7 +121,7 @@ let reversePi: [UInt8] = [
 
 //L-вектор для реализации R-преобразования
 
-let lVector: [UInt8] = [
+var lVector: [UInt8] = [
     1, 148, 32, 133, 16, 194, 192, 1,
     251, 1, 192, 194, 16, 133, 32, 148
 ]
@@ -158,10 +158,11 @@ func getReverseS(from inData: [UInt8]) -> [UInt8] {
     return outData
 }
 
-//ФУНКЦИЯ L
+//ФУНКЦИЯ УМНОЖЕНИЕ В ПОЛЕ ГАЛУА
 func multiplicateGaluaField(from a: inout UInt8, and b: inout UInt8) -> UInt8 {
     var c: UInt8 = 0
     var hiBit: UInt8
+    
     for _ in 0..<8 {
         
         if (b & 1) == 1 {
@@ -180,9 +181,57 @@ func multiplicateGaluaField(from a: inout UInt8, and b: inout UInt8) -> UInt8 {
     return c
 }
 
-//УМНОЖЕНИЕ В ПОЛЕ Гаула
+//static private byte[] GOST_Kuz_R(byte[] state)
+//{
+//    int i;
+//    byte a_15 = 0;
+//    byte[] internal = new byte[16];
+//    for (i = 15; i >= 0; i--)
+//    {
+//        if(i == 0)
+//            internal[15] = state[i];
+//        else
+//            internal[i - 1] = state[i];
+//    a_15 ^= GOST_Kuz_GF_mul(state[i], l_vec[i]);
+//    }
+//    internal[15] = a_15;
+//    return internal;
+//}
+//static private byte[] GOST_Kuz_L(byte[] in_data)
+//{
+//    int i;
+//    byte[] out_data = new byte[in_data.length];
+//    byte[] internal = in_data;
+//    for (i = 0; i < 16; i++)
+//    {
+//        internal = GOST_Kuz_R(internal);
+//    }
+//    out_data = internal;
+//    return out_data;
+//}
 
-//Функция R сдвигает данные и реализует уравнение, представленное для расчета L-функции
+
+//ПРЕОБРАЗОВАНИЕ R
+func getTransformationR(for state: inout [UInt8]) -> [UInt8] {
+    var i = 15
+    var a15: UInt8 = 0
+    var intern: [UInt8] = Array(repeating: 0x00, count: 16)
+
+    repeat {
+        if i == 0 {
+            intern[15] = state[i]
+        } else {
+            intern[i-1] = state[i]
+        }
+        a15 ^= multiplicateGaluaField(from: &state[i], and: &lVector[i])
+        i -= 1
+    } while i >= 0
+    intern[15] = a15
+    return intern
+}
+
+//ПРЕОБРАЗОВАНИЕ L
+//func getTRansformationL(for inData: )ç
 
 
 
