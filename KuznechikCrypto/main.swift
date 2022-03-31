@@ -231,7 +231,15 @@ func getTransformationR(for state: inout [UInt8]) -> [UInt8] {
 }
 
 //ПРЕОБРАЗОВАНИЕ L
-//func getTRansformationL(for inData: )ç
+func getTRansformationL(for inData: [UInt8]) -> [UInt8] {
+    var outData: [UInt8] = Array(repeating: 0x00, count: inData.count)
+    var intern = inData
+    for _ in 0..<16 {
+        intern = getTransformationR(for: &intern)
+    }
+    outData = intern
+    return outData
+}
 
 
 
