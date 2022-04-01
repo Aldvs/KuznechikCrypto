@@ -125,10 +125,15 @@ var lVector: [UInt8] = [
 ]
 
 // массив для хранения итерационных констант С (32)
-var iterC: [[UInt8]] = []
+var iterC: [[UInt8]] = Array(
+    repeating: Array(repeating: UInt8(0x00), count: 32),
+    count: 16
+)
 // массив для хранения ключей шифрования K (10)
-var iterK: [[UInt8]] = []
-
+var iterK: [[UInt8]] = Array(
+    repeating: Array(repeating: UInt8(0x00), count: 10),
+    count: 64
+)
 //ФУНКЦИЯ XOR
 func getXOR(from firstVect: [UInt8], and secondVect: [UInt8]) -> [UInt8] {
     var result: [UInt8] = []
@@ -236,3 +241,23 @@ func getReverseL(for inData: [UInt8]) -> [UInt8] {
 //MARK: - РАЗВЕРТКА КЛЮЧЕЙ ФУНКЦИИ
 
 //ФУНКЦИЯ РАСЧЕТА КОНСТАНТ
+
+func getIterativeConstants() {
+    
+    var iterativeNumbers = Array(
+        repeating: Array(repeating: UInt8(0x00), count: 32),
+        count: 16
+    )
+    for i in 0..<32 {
+        for j in 0..<16 {
+            iterativeNumbers[i][j] = 0
+        }
+        iterativeNumbers[i][0] = UInt8(i + 1)
+    }
+    for i in 0..<32 {
+        iterC[i] = getTRansformationL(for: iterativeNumbers[i])
+    }
+}
+
+//функция, выполняющая преобразования ячейки Фейстеля
+
