@@ -260,4 +260,23 @@ func getIterativeConstants() {
 }
 
 //функция, выполняющая преобразования ячейки Фейстеля
-
+func getFeistelNetwork(keyOne firstKey: [UInt8],
+                       keyTwo secondKey: [UInt8],
+                       withIterC iterConst: [UInt8] ) -> [[UInt8]] {
+    
+    var inter: [UInt8] = []
+    let outKeyTwo = firstKey
+    
+    inter = getXOR(from: firstKey, and: iterConst)
+    inter = getS(from: inter)
+    inter = getTRansformationL(for: inter)
+    
+    let outKeyOne = getXOR(from: inter, and: secondKey)
+    
+    var key = Array(
+        repeating: Array(repeating: UInt8(0x00), count: 2),
+        count: 1)
+    key[0] = outKeyOne
+    key[1] = outKeyTwo
+    return key
+}
