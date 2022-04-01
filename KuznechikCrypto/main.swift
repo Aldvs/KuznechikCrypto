@@ -181,36 +181,6 @@ func multiplicateGaluaField(from a: inout UInt8, and b: inout UInt8) -> UInt8 {
     return c
 }
 
-//static private byte[] GOST_Kuz_R(byte[] state)
-//{
-//    int i;
-//    byte a_15 = 0;
-//    byte[] internal = new byte[16];
-//    for (i = 15; i >= 0; i--)
-//    {
-//        if(i == 0)
-//            internal[15] = state[i];
-//        else
-//            internal[i - 1] = state[i];
-//    a_15 ^= GOST_Kuz_GF_mul(state[i], l_vec[i]);
-//    }
-//    internal[15] = a_15;
-//    return internal;
-//}
-//static private byte[] GOST_Kuz_L(byte[] in_data)
-//{
-//    int i;
-//    byte[] out_data = new byte[in_data.length];
-//    byte[] internal = in_data;
-//    for (i = 0; i < 16; i++)
-//    {
-//        internal = GOST_Kuz_R(internal);
-//    }
-//    out_data = internal;
-//    return out_data;
-//}
-
-
 //ПРЕОБРАЗОВАНИЕ R
 func getTransformationR(for state: inout [UInt8]) -> [UInt8] {
     var i = 15
@@ -241,5 +211,16 @@ func getTRansformationL(for inData: [UInt8]) -> [UInt8] {
     return outData
 }
 
+// ОБРАТНОЕ ПРЕОБРАЗОВАНИЕ R
+func getReverseR(for state: [UInt8]) -> [UInt8] {
+    var a0: UInt8 = state[15]
+    var intern:  [UInt8] = Array(repeating: 0x00, count: 16)
+    for i in 1..<16 {
+        intern[i] = state[i - 1]
+        a0 ^= multiplicateGaluaField(from: &intern[i], and: &lVector[i])
+    }
+    intern[0] = a0
+    return intern
+}
 
 
