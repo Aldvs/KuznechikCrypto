@@ -7,8 +7,6 @@
 
 import Foundation
 
-//MARK: - РАЗВЕРТКА КЛЮЧЕЙ ФУНКЦИИ
-
 //ФУНКЦИЯ РАЗБИЕНИЯ ОСВНОВНОГО КЛЮЧА К ДЛИНОЙ 256 бит на ДВА КЛЮЧА К1, К2 ДЛИНОЙ 128 БИТ
 
 //func getPartOfFullKey(key fullKey: String) -> [String] {
@@ -223,4 +221,18 @@ func getReverseR(for state: [UInt8]) -> [UInt8] {
     return intern
 }
 
+//ОБРАТНОЕ ПРЕОБРАЗОВАНИЕ L
+func getReverseL(for inData: [UInt8]) -> [UInt8] {
+    var outData:  [UInt8] = Array(repeating: 0x00, count: inData.count)
+    var intern: [UInt8] = []
+    intern = inData
+    for i in 0..<16 {
+        intern = getReverseR(for: intern)
+    }
+    outData = intern
+    return outData
+}
 
+//MARK: - РАЗВЕРТКА КЛЮЧЕЙ ФУНКЦИИ
+
+//ФУНКЦИЯ РАСЧЕТА КОНСТАНТ
