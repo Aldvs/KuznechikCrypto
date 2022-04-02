@@ -313,7 +313,7 @@ func expandKeys(with keyOne: [UInt8], and keyTwo: [UInt8]) {
 }
 
 // функция шифрования блока
-func KuznechikEncription(block blk: [UInt8]) -> [UInt8] {
+func kuznechikEncryption(block blk: [UInt8]) -> [UInt8] {
     var outBlk: [UInt8] = []
     outBlk = blk
     
@@ -326,3 +326,23 @@ func KuznechikEncription(block blk: [UInt8]) -> [UInt8] {
     outBlk = getXOR(from: outBlk, and: iterK[9])
     return outBlk
 }
+
+//функция расшифрования блока
+func kuznechikDencryption(block blk: [UInt8]) -> [UInt8] {
+    var outBlk: [UInt8] = []
+    var i = 8
+    outBlk = blk
+    outBlk = getXOR(from: outBlk, and: iterK[9])
+
+    repeat {
+        
+        outBlk = getReverseL(for: outBlk)
+        outBlk = getReverseS(from: outBlk)
+        outBlk = getXOR(from: iterK[i], and: outBlk)
+        i -= 1
+        
+    } while i >= 0
+    
+        return outBlk
+}
+    
