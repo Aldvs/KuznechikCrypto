@@ -311,3 +311,18 @@ func expandKeys(with keyOne: [UInt8], and keyTwo: [UInt8]) {
         iterK[2 * i + 3] = iter12[1]
     }
 }
+
+// функция шифрования блока
+func KuznechikEncription(block blk: [UInt8]) -> [UInt8] {
+    var outBlk: [UInt8] = []
+    outBlk = blk
+    
+    for i in 0..<9 {
+        
+        outBlk = getXOR(from: iterK[i], and: outBlk)
+        outBlk = getS(from: outBlk)
+        outBlk = getTRansformationL(for: outBlk)
+    }
+    outBlk = getXOR(from: outBlk, and: iterK[9])
+    return outBlk
+}
