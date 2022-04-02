@@ -44,6 +44,7 @@ import Foundation
 //ПЕРЕМЕННЫЕ И КОНСТАНТЫ
 
 //значения для нелинейного преобразования множества двоичных векторов (преобразование S)
+import CryptoKit
 
 let pi: [UInt8] = [
     0xFC, 0xEE, 0xDD, 0x11, 0xCF, 0x6E, 0x31, 0x16,
@@ -279,4 +280,34 @@ func getFeistelNetwork(keyOne firstKey: [UInt8],
     key[0] = outKeyOne
     key[1] = outKeyTwo
     return key
+}
+
+// функция расчета раундовых ключей
+
+func expandKeys(with keyOne: [UInt8], and keyTwo: [UInt8]) {
+    var iter12 = Array(
+        repeating: Array(repeating: UInt8(0x00), count: 2),
+        count: 1)
+    var iter34 = Array(
+        repeating: Array(repeating: UInt8(0x00), count: 2),
+        count: 1)
+    
+    getIterativeConstants()
+    
+    iterK[0] = keyOne
+    iterK[1] = keyTwo
+    
+    for i in 0..<4 {
+        iter34 = getFeistelNetwork(keyOne: iter12[0], keyTwo: iter12[1], withIterC: iterC[0 + 8 * i])
+        iter12 = getFeistelNetwork(keyOne: iter34[0], keyTwo: iter34[1], withIterC: iterC[1 + 8 * i])
+        iter34 = getFeistelNetwork(keyOne: iter12[0], keyTwo: iter12[1], withIterC: iterC[2 + 8 * i])
+        iter12 = getFeistelNetwork(keyOne: iter34[0], keyTwo: iter34[1], withIterC: iterC[3 + 8 * i])
+        iter34 = getFeistelNetwork(keyOne: iter12[0], keyTwo: iter12[1], withIterC: iterC[4 + 8 * i])
+        iter12 = getFeistelNetwork(keyOne: iter34[0], keyTwo: iter34[1], withIterC: iterC[5 + 8 * i])
+        iter34 = getFeistelNetwork(keyOne: iter12[0], keyTwo: iter12[1], withIterC: iterC[6 + 8 * i])
+        iter12 = getFeistelNetwork(keyOne: iter34[0], keyTwo: iter34[1], withIterC: iterC[7 + 8 * i])
+        
+        iterK[2 * i + 2] = iter12[0]
+        iterK[2 * i + 3] = iter12[1]
+    }
 }
