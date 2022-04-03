@@ -177,4 +177,12 @@ func dropForString(str txt: String) -> [String] {
     return array
 }
 
-dropForString(str: openText)
+var kekw = dropForString(str: openText)
+
+func convertArray(convert arr: [String]) -> [UInt8] {
+    arr.map{UInt8($0, radix: 16)!}
+}
+
+convertArray(convert: kekw)
+
+
