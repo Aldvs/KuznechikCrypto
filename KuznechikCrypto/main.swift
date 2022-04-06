@@ -9,24 +9,20 @@ import Foundation
 
 //ФУНКЦИЯ РАЗБИЕНИЯ ОСВНОВНОГО КЛЮЧА К ДЛИНОЙ 256 бит на ДВА КЛЮЧА К1, К2 ДЛИНОЙ 128 БИТ
 
-//func getPartOfFullKey(key fullKey: String) -> [String] {
-//
-//    var pairOfKyes = [String]()
-//
-//    let halfKey: Int = fullKey.count / 2
-//    let firstKey = fullKey[fullKey.startIndex..<fullKey.index(fullKey.startIndex, offsetBy: halfKey)]
-//    let secondKey = fullKey[fullKey.index(fullKey.startIndex, offsetBy: halfKey)..<fullKey.endIndex]
-//
-//    pairOfKyes.append(String(firstKey))
-//    pairOfKyes.append(String(secondKey))
-//
-//    return pairOfKyes
-//}
-//
-//let ourFirstKeys = getPartOfFullKey(key: DataManager.shared.fullKey)
-//
-//print(ourFirstKeys)
-//
+func getPartOfFullKey(key fullKey: String) -> [String] {
+
+    var pairOfKyes = [String]()
+
+    let halfKey: Int = fullKey.count / 2
+    let firstKey = fullKey[fullKey.startIndex..<fullKey.index(fullKey.startIndex, offsetBy: halfKey)]
+    let secondKey = fullKey[fullKey.index(fullKey.startIndex, offsetBy: halfKey)..<fullKey.endIndex]
+
+    pairOfKyes.append(String(firstKey))
+    pairOfKyes.append(String(secondKey))
+
+    return pairOfKyes
+}
+
 //var i = 1
 //repeat {
 //    for elem in ourFirstKeys {
@@ -36,17 +32,11 @@ import Foundation
 //        i += 1
 //    }
 //} while i < 3
-//
-//print(DataManager.shared.iterativeKeys)
+
 
 //MARK: - АЛГОРИТМ ШИФРОВАНИЯ
-//let openText = "1122334455667700ffeeddccbbaa9988"
-//ПЕРЕМЕННЫЕ И КОНСТАНТЫ
 
 //значения для нелинейного преобразования множества двоичных векторов (преобразование S)
-import CryptoKit
-//входные данные
-
 let pi: [UInt8] = [
     0xFC, 0xEE, 0xDD, 0x11, 0xCF, 0x6E, 0x31, 0x16,
     0xFB, 0xC4, 0xFA, 0xDA, 0x23, 0xC5, 0x04, 0x4D,
@@ -347,9 +337,51 @@ func kuznechikDencryption(block blk: [UInt8]) -> [UInt8] {
         return outBlk
 }
 
-let keyOne: [UInt8] = [0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11, 0x00,
-                       0xff, 0xee, 0xdd, 0xcc, 0xbb, 0xaa, 0x99, 0x88]
-let keyTwo: [UInt8] = [0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01,
-                       0x10, 0x32, 0x54, 0x76, 0x98, 0xba, 0xdc, 0xfe]
-let openText = "8899aabbccddeeff0077665544332211"
+var keyOne: [UInt8] = []
+var keyTwo: [UInt8] = []
+
+let openText = "1122334455667700ffeeddccbbaa9988"
 let blk = [UInt8](openText.utf8)
+
+func dropForString(str txt: String) -> [String] {
+    var openText = txt
+    let startIndex = openText.startIndex
+    var array: [String] = []
+    var tempStr: String = ""
+    var tempChar = ""
+    
+    repeat {
+        for _ in 1...2 {
+            tempChar = String(openText.remove(at: startIndex))
+            tempStr += tempChar
+        }
+        array.append(tempStr)
+        tempStr = ""
+        print(openText)
+    } while !openText.isEmpty
+    return array
+}
+
+var kekw = dropForString(str: openText)
+
+func convertArray(convert arr: [String]) -> [UInt8] {
+    arr.map{UInt8($0, radix: 16)!}
+}
+
+let ourFirstKeys = getPartOfFullKey(key: DataManager.shared.fullKey)
+
+func createFirstKeys(for keys: [String]) -> [[UInt8]] {
+    var twoKyes: [[UInt8]] = []
+    var tempStringArray: [String] = []
+    for partOfKey in ourFirstKeys {
+        tempStringArray = dropForString(str: partOfKey)
+        twoKyes.append(convertArray(convert: tempStringArray))
+    }
+    return twoKyes
+}
+
+let twoKyes = createFirstKeys(for: ourFirstKeys)
+
+keyOne = twoKyes[0]
+keyTwo = twoKyes[1]
+
