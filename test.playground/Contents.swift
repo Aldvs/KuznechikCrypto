@@ -29,7 +29,7 @@ let b1 = String(d1, radix: 2)
 print(b1) // "10101"
 
 // 2 to 10
-let b2 = "1111100"
+let b2 = "10100100"
 let d2 = Int(b2, radix: 2)!
 print(d2) // 22
 
@@ -57,31 +57,70 @@ var iterC: [[UInt8]] = Array(
 // & - ПОБИТОВОЕ И
 // ^ - ПОБИТОВОЕ ИЛИ XOR
 
+//https://en.wikipedia.org/wiki/Finite_field_arithmetic
+//uint8_t gmul(uint8_t a, uint8_t b) {
+//    uint8_t p = 0; /* the product of the multiplication */
+//    while (a && b) {
+//        if (b &
+//            1) /* if b is odd, then add the corresponding a to p (final product = sum of all a's corresponding to odd b's) */
+//            p ^= a; /* since we're in GF(2^m), addition is an XOR */
+//
+//        if (a &
+//            0x80) /* GF modulo: if a >= 128, then it will overflow when shifted left, so reduce */
+//            a = (a << 1) ^ 0xC3;
+//        else
+//            a <<= 1; /* equivalent to a*2 */
+//        b >>= 1; /* equivalent to b // 2 */
+//    }
+//    return p;
+//}
+
+//NEW FUNCTION FROM WIKI
 func multiplicateGaluaField(from a: UInt8, and b: UInt8) -> UInt8 {
     var c: UInt8 = 0
-    var hiBit: UInt8
-    
+
     var tempA = a
     var tempB = b
-    
-    for _ in 0..<8 {
-        
-        if (tempB & 1) == 1 {
+
+    repeat {
+        if ( tempB & 1 ) != 0 {
             c ^= tempA
         }
-        
-        hiBit = tempA & 0x80 // x^8
-        tempA <<= 1
-        
-        if hiBit == 1 {
-            tempA ^= 0xc3 // ПОЛИНОМ x^8 + x^7 + x^6 + x + 1
+        if (tempA & 0x80) != 0 {
+            tempA = (tempA << 1) ^ 0xC3
+        } else {
+            tempA <<= 1
         }
-        
         tempB >>= 1
-    }
+    } while (tempA != 0) && (tempB != 0)
     return c
-    
 }
+
+//func multiplicateGaluaField(from a: UInt8, and b: UInt8) -> UInt8 {
+//    var c: UInt8 = 0
+//    var hiBit: UInt8
+//
+//    var tempA = a
+//    var tempB = b
+//
+//    for _ in 0..<8 {
+//
+//        if (tempB & 1) == 1 {
+//            c ^= tempA
+//        }
+//
+//        hiBit = tempA & 0x80 // x^8
+//        tempA <<= 1
+//
+//        if hiBit == 1 {
+//            tempA ^= 0xc3 // ПОЛИНОМ x^8 + x^7 + x^6 + x + 1
+//        }
+//
+//        tempB >>= 1
+//    }
+//    return c
+//
+//}
 //
 ////ПРЕОБРАЗОВАНИЕ R (умножение + сдвиг)
 //func getTransformationR(for state: [UInt8]) -> [UInt8] {
@@ -150,3 +189,5 @@ var result = multiplicateGaluaField(from: a, and: b) //должна быть р�
 
 var full: UInt8 = 32
 full ^= 164
+
+0x7E & 148
