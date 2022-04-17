@@ -142,58 +142,58 @@ func getReverseS(from inData: [UInt8]) -> [UInt8] {
 // & - ПОБИТОВОЕ И
 // ^ - ПОБИТОВОЕ ИЛИ XOR
 
-func multiplicateGaluaField(from a: inout UInt8, and b: inout UInt8) -> UInt8 {
+func multiplicateGaluaField(from a: UInt8, and b: UInt8) -> UInt8 {
     var c: UInt8 = 0
-    var hiBit: UInt8
-    
-    for _ in 0..<8 {
-        
-        if (b & 1) == 1 {
-            c ^= a
+
+    var tempA = a
+    var tempB = b
+
+    repeat {
+        if ( tempB & 1 ) != 0 {
+            c ^= tempA
         }
-        
-        hiBit = a & 0x80 // x^8
-        a <<= 1
-        
-        if hiBit < 0 {
-            a ^= 0xc3 // ПОЛИНОМ x^8 + x^7 + x^6 + x + 1
+        if (tempA & 0x80) != 0 {
+            tempA = (tempA << 1) ^ 0xC3
+        } else {
+            tempA <<= 1
         }
-        
-        b >>= 1
-    }
+        tempB >>= 1
+    } while (tempA != 0) && (tempB != 0)
     return c
 }
 
 //ПРЕОБРАЗОВАНИЕ R (умножение + сдвиг)
-func getTransformationR(for state: inout [UInt8]) -> [UInt8] {
-    var i = 15
-    var a15: UInt8 = 0
+func getTransformationR(for state: [UInt8]) -> [UInt8] {
+
+    var aZero: UInt8 = 0
     var intern: [UInt8] = Array(repeating: 0x00, count: 16)
 
-    repeat {
+    for i in 0..<16 {
         
-        if i == 0 {
-            intern[15] = state[i]
+        if i == 15 {
+            intern[0] = state[i]
         } else {
-            intern[i-1] = state[i] //ДВИГАЕМ БАЙТЫ В СТОРОНУ МЛАДШЕГО РАЗРЯДА
+            intern[i+1] = state[i] //ДВИГАЕМ БАЙТЫ В СТОРОНУ МЛАДШЕГО РАЗРЯДА
         }
+
+        aZero ^= multiplicateGaluaField(from: state[i], and: lVector[i])
         
-        a15 ^= multiplicateGaluaField(from: &state[i], and: &lVector[i])
-        i -= 1
-    } while i >= 0
+
+    }
     
     //ПИШЕМ В ПОСЛЕДНИЙ БАЙТ РЕЗУЛЬТАТ СЛОЖЕНИЯ
-    intern[15] = a15
-    
+    intern[0] = aZero
+    print(intern)
     return intern
 }
+
 
 //ПРЕОБРАЗОВАНИЕ L
 func getTransformationL(for inData: [UInt8]) -> [UInt8] {
     var outData: [UInt8] = Array(repeating: 0x00, count: inData.count)
     var intern = inData
-    for _ in 0..<16 {
-        intern = getTransformationR(for: &intern)
+    for _ in 0..<15 {
+        intern = getTransformationR(for: intern)
     }
     outData = intern
     return outData
@@ -205,7 +205,7 @@ func getReverseR(for state: [UInt8]) -> [UInt8] {
     var intern:  [UInt8] = Array(repeating: 0x00, count: 16)
     for i in 1..<16 {
         intern[i] = state[i - 1] //двигаем все на старые места
-        a0 ^= multiplicateGaluaField(from: &intern[i], and: &lVector[i])
+        a0 ^= multiplicateGaluaField(from: intern[i], and: lVector[i])
     }
     intern[0] = a0
     return intern
