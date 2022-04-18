@@ -201,22 +201,27 @@ func getTransformationL(for inData: [UInt8]) -> [UInt8] {
 
 // ОБРАТНОЕ ПРЕОБРАЗОВАНИЕ R
 func getReverseR(for state: [UInt8]) -> [UInt8] {
-    var a0: UInt8 = state[15]
+    var i = 15
+    var aLast: UInt8 = state[0]
     var intern:  [UInt8] = Array(repeating: 0x00, count: 16)
-    for i in 1..<16 {
-        intern[i] = state[i - 1] //двигаем все на старые места
-        a0 ^= multiplicateGaluaField(from: intern[i], and: lVector[i])
-    }
-    intern[0] = a0
+    repeat {
+        
+        intern[i-1] = state[i]
+        aLast ^= multiplicateGaluaField(from: intern[i-1], and: lVector[i-1])
+        i -= 1
+    } while i != 0
+    
+    intern[15] = aLast
     return intern
 }
+
 
 //ОБРАТНОЕ ПРЕОБРАЗОВАНИЕ L
 func getReverseL(for inData: [UInt8]) -> [UInt8] {
     var outData:  [UInt8] = Array(repeating: 0x00, count: inData.count)
     var intern: [UInt8] = []
     intern = inData
-    for _ in 0..<16 {
+    for _ in 0..<15 {
         intern = getReverseR(for: intern)
     }
     outData = intern

@@ -74,7 +74,7 @@ func getTransformationR(for state: [UInt8]) -> [UInt8] {
     
     //ПИШЕМ В ПОСЛЕДНИЙ БАЙТ РЕЗУЛЬТАТ СЛОЖЕНИЯ
     intern[0] = aZero
-    print(intern)
+//    print(intern)
     return intern
 }
 
@@ -93,18 +93,59 @@ let resultC = getTransformationL(for: [
     0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 ])
-print(resultC)
 
-var result: UInt8 = 0x00
-var temp: UInt8 = 0x00
-var convert: String = ""
-for i in 0...15 {
-    temp = multiplicateGaluaField(from: testVector[i], and: lVector[i])
-    convert = String(temp, radix: 2)
-    print("l(\(i)) = \(pad(string: convert, toSize: 8))")
-    result ^= temp
+// ОБРАТНОЕ ПРЕОБРАЗОВАНИЕ R
+func getReverseR(for state: [UInt8]) -> [UInt8] {
+    var a0: UInt8 = state[15]
+    var intern:  [UInt8] = Array(repeating: 0x00, count: 16)
+    for i in 1..<16 {
+        
+        intern[i] = state[i - 1] //двигаем все на старые места
+        a0 ^= multiplicateGaluaField(from: intern[i], and: lVector[i])
+    }
+    
+    intern[0] = a0
+    return intern
 }
-print(String(result, radix: 16))
+func getReverseRR(for state: [UInt8]) -> [UInt8] {
+    var i = 15
+    var aLast: UInt8 = state[0]
+    var intern:  [UInt8] = Array(repeating: 0x00, count: 16)
+    repeat {
+        
+        intern[i-1] = state[i]
+        aLast ^= multiplicateGaluaField(from: intern[i-1], and: lVector[i-1])
+        i -= 1
+    } while i != 0
+    
+    intern[15] = aLast
+    return intern
+}
+
+//ОБРАТНОЕ ПРЕОБРАЗОВАНИЕ L
+func getReverseL(for inData: [UInt8]) -> [UInt8] {
+    var outData:  [UInt8] = Array(repeating: 0x00, count: inData.count)
+    var intern: [UInt8] = []
+    intern = inData
+    for _ in 0..<15 {
+        intern = getReverseRR(for: intern)
+    }
+    outData = intern
+    return outData
+}
+
+//print(resultC)
+
+//var result: UInt8 = 0x00
+//var temp: UInt8 = 0x00
+//var convert: String = ""
+//for i in 0...15 {
+//    temp = multiplicateGaluaField(from: testVector[i], and: lVector[i])
+//    convert = String(temp, radix: 2)
+//    print("l(\(i)) = \(pad(string: convert, toSize: 8))")
+//    result ^= temp
+//}
+//print(String(result, radix: 16))
 
 //print(String(testVector[0], radix: 16))
 //print(pad(string:String(testVector[0], radix: 2), toSize: 8))
@@ -113,14 +154,46 @@ print(String(result, radix: 16))
 //temp = multiplicateGaluaField(from: 0b01111110, and: 0b10010100)
 //convert = String(temp, radix: 2)
 //print("\(pad(string: convert, toSize: 8))")
-
+//func getIterativeConstants() -> [[UInt8]]{
+//
+//    var iterativeNumbers = Array(
+//        repeating: Array(repeating: UInt8(0x00), count: 16),
+//        count: 32
+//    ) //номер итерации от 1 до 32
+//
+//    print(iterativeNumbers)
+//
+//    for i in 0..<32 {
+//        for j in 0..<16 {
+//            iterativeNumbers[i][j] = 0
+//        }
+//        iterativeNumbers[i][0] = UInt8(i + 1)
+//    }
+//
+//    for i in 0..<32 {
+//        iterC[i] = getTransformationL(for: iterativeNumbers[i]) //ДЕЛАЕМ ПРЕОБРАЗОВАНИЕ L для каждого элемента массива
+//    }
+//
+//    print(iterativeNumbers)
+//    print(iterC)
+//    return iterC
+//}
+//var iterativeConstants = getIterativeConstants()
+//for const in iterativeConstants {
+//    print("Const # - \(const)")
+//}
+print(testVector)
+var lTransformedVector = getTransformationL(for: testVector)
+print(lTransformedVector)
+var reveersedL = getReverseL(for: lTransformedVector)
+print(reveersedL)
 //16 to 10
 let h2 = "E6"
 let d4 = Int(h2, radix: 16)!
 print(d4)
 
 //10 to 16
-let d3 = 110
+let d3 = 94
 let h1 = String(d3, radix: 16)
 print(h1)
 
