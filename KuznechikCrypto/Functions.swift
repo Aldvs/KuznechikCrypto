@@ -183,7 +183,7 @@ func getTransformationR(for state: [UInt8]) -> [UInt8] {
     
     //ПИШЕМ В ПОСЛЕДНИЙ БАЙТ РЕЗУЛЬТАТ СЛОЖЕНИЯ
     intern[0] = aZero
-    print(intern)
+//    print(intern)
     return intern
 }
 
@@ -239,7 +239,7 @@ func getIterativeConstants() {
         count: 32
     ) //номер итерации от 1 до 32
     
-    print(iterativeNumbers)
+//    print(iterativeNumbers)
     
     for i in 0..<32 {
         for j in 0..<16 {
@@ -252,8 +252,13 @@ func getIterativeConstants() {
         iterC[i] = getTransformationL(for: iterativeNumbers[i]) //ДЕЛАЕМ ПРЕОБРАЗОВАНИЕ L для каждого элемента массива
     }
     
-    print(iterativeNumbers)
-    print(iterC)
+//    print(iterativeNumbers)
+    print("ITERATIVE CONSTANTS ____________________________")
+    for const in iterC {
+        print("\(const)")
+    }
+//    print(iterC)
+    print("ITERATIVE CONSTANTS ____________________________")
 }
 
 //функция, выполняющая преобразования ячейки Фейстеля
@@ -271,8 +276,8 @@ func getFeistelNetwork(keyOne firstKey: [UInt8],
     let outKeyOne = getXOR(from: inter, and: secondKey)
     
     var key = Array(
-        repeating: Array(repeating: UInt8(0x00), count: 2),
-        count: 1)
+        repeating: Array(repeating: UInt8(0x00), count: 16),
+        count: 2)
     key[0] = outKeyOne
     key[1] = outKeyTwo
     return key
@@ -283,12 +288,12 @@ func getFeistelNetwork(keyOne firstKey: [UInt8],
 func expandKeys(with keyOne: [UInt8], and keyTwo: [UInt8]) {
     //предыдущая пара ключей
     var iter12 = Array(
-        repeating: Array(repeating: UInt8(0x00), count: 2),
-        count: 1)
+        repeating: Array(repeating: UInt8(0x00), count: 16),
+        count: 2)
     //текущая пара ключей
     var iter34 = Array(
-        repeating: Array(repeating: UInt8(0x00), count: 2),
-        count: 1)
+        repeating: Array(repeating: UInt8(0x00), count: 16),
+        count: 2)
     
     getIterativeConstants() //вычисляем итерационные константы
     
@@ -309,6 +314,12 @@ func expandKeys(with keyOne: [UInt8], and keyTwo: [UInt8]) {
         iterK[2 * i + 2] = iter12[0]
         iterK[2 * i + 3] = iter12[1]
     }
+    print("ITERATIVE KEYS ____________________________")
+    for key in iterK {
+        print("\(key)")
+    }
+//    print(iterK)
+    print("ITERATIVE KEYS ____________________________")
 }
 //MARK: -
 
