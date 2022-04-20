@@ -198,6 +198,15 @@ func getTransformationL(for inData: [UInt8]) -> [UInt8] {
     outData = intern
     return outData
 }
+func getTransformationLForFN(for inData: [UInt8]) -> [UInt8] {
+    var outData: [UInt8] = Array(repeating: 0x00, count: inData.count)
+    var intern = inData
+    for _ in 0..<16 {
+        intern = getTransformationR(for: intern)
+    }
+    outData = intern
+    return outData
+}
 
 // ОБРАТНОЕ ПРЕОБРАЗОВАНИЕ R
 func getReverseR(for state: [UInt8]) -> [UInt8] {
@@ -266,15 +275,25 @@ func getFeistelNetwork(keyOne firstKey: [UInt8],
                        keyTwo secondKey: [UInt8],
                        withIterC iterConst: [UInt8] ) -> [[UInt8]] {
     
-    var inter: [UInt8] = []
-    let outKeyTwo = firstKey
+    print("First key: \(firstKey)")
+    print("Second key: \(secondKey)")
+    print("Iter const: \(iterConst)")
     
+    var inter: [UInt8] = []
+    
+    let outKeyTwo = firstKey
+
     inter = getXOR(from: firstKey, and: iterConst)
+    print("Inter after XOR: \(inter)")
     inter = getS(from: inter)
-    inter = getTransformationL(for: inter)
+    print("Inter after S: \(inter)")
+    inter = getTransformationLForFN(for: inter)
+    print("Inter after L: \(inter)")
     
     let outKeyOne = getXOR(from: inter, and: secondKey)
-    
+    print("Out key #1: \(outKeyOne)")
+    print("Out key #2: \(outKeyTwo)")
+
     var key = Array(
         repeating: Array(repeating: UInt8(0x00), count: 16),
         count: 2)
@@ -300,6 +319,13 @@ func expandKeys(with keyOne: [UInt8], and keyTwo: [UInt8]) {
     //Первые два итерационных ключа равны паре мастер ключа
     iterK[0] = keyOne
     iterK[1] = keyTwo
+    
+    iter12[0] = keyOne
+    iter12[1] = keyTwo
+    
+    print("Keys in expand func")
+    print(iterK[0])
+    print(iterK[1])
     
     for i in 0..<4 {
         iter34 = getFeistelNetwork(keyOne: iter12[0], keyTwo: iter12[1], withIterC: iterC[0 + 8 * i])
@@ -332,7 +358,7 @@ func kuznechikEncryption(block blk: [UInt8]) -> [UInt8] {
         
         outBlk = getXOR(from: iterK[i], and: outBlk)
         outBlk = getS(from: outBlk)
-        outBlk = getTransformationL(for: outBlk)
+        outBlk = getTransformationLForFN(for: outBlk)
     }
     outBlk = getXOR(from: outBlk, and: iterK[9])
     return outBlk

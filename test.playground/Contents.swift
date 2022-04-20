@@ -194,7 +194,7 @@ let d4 = Int(h2, radix: 16)!
 print(d4)
 
 //10 to 16
-let d3 = 32
+let d3 = 204
 let h1 = String(d3, radix: 16)
 print(h1)
 
