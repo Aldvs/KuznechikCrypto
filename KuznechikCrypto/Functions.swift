@@ -230,7 +230,7 @@ func getReverseL(for inData: [UInt8]) -> [UInt8] {
     var outData:  [UInt8] = Array(repeating: 0x00, count: inData.count)
     var intern: [UInt8] = []
     intern = inData
-    for _ in 0..<15 {
+    for _ in 0..<16 {
         intern = getReverseR(for: intern)
     }
     outData = intern
@@ -351,6 +351,8 @@ func expandKeys(with keyOne: [UInt8], and keyTwo: [UInt8]) {
 
 // функция шифрования блока
 func kuznechikEncryption(block blk: [UInt8]) -> [UInt8] {
+    print("BLOCK")
+    print(blk)
     var outBlk: [UInt8] = []
     outBlk = blk
     
@@ -370,12 +372,16 @@ func kuznechikDencryption(block blk: [UInt8]) -> [UInt8] {
     var i = 8
     outBlk = blk
     outBlk = getXOR(from: outBlk, and: iterK[9])
+    print("OUTBLOCK after XORfirst: \(outBlk)")
 
     repeat {
         
         outBlk = getReverseL(for: outBlk)
+        print("OUTBLOCK after RL: \(outBlk)")
         outBlk = getReverseS(from: outBlk)
+        print("OUTBLOCK after RS: \(outBlk)")
         outBlk = getXOR(from: iterK[i], and: outBlk)
+        print("OUTBLOCK after XOR: \(outBlk)")
         i -= 1
         
     } while i >= 0
