@@ -13,17 +13,16 @@ let fullKey = DataManager.shared.fullKey
 var keyOne: [UInt8] = []
 var keyTwo: [UInt8] = []
 
-var arrayOpenText = stringToArray(str: openText)
-
 //ШИФРОТЕКСТ
-var block = convertArrayToBytes(convert: arrayOpenText)
+print(openText)
+var block = stringToBytes(for: openText)
 
 let ourStringFirstKeys = getStringPairOfKeys(key: fullKey)
 
 //ПЕРВАЯ ПАРА КЛЮЧЕЙ
 let firstPairOfKeys = getFirstPairOfKeys(for: ourStringFirstKeys)
-print(firstPairOfKeys[0])
-print(firstPairOfKeys[1])
+//print(firstPairOfKeys[0])
+//print(firstPairOfKeys[1])
 
 expandKeys(with: firstPairOfKeys[0], and: firstPairOfKeys[1])
 
@@ -33,6 +32,10 @@ print(encryptedBlock)
 var decryptedBlock = kuznechikDencryption(block: encryptedBlock)
 print("DECRYPTED BLOCK ____________________________")
 print(decryptedBlock)
+
+var resultString = decryptedString(for: decryptedBlock)
+
+print(resultString)
 
 
 

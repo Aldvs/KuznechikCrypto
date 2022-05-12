@@ -275,24 +275,24 @@ func getFeistelNetwork(keyOne firstKey: [UInt8],
                        keyTwo secondKey: [UInt8],
                        withIterC iterConst: [UInt8] ) -> [[UInt8]] {
     
-    print("First key: \(firstKey)")
-    print("Second key: \(secondKey)")
-    print("Iter const: \(iterConst)")
+//    print("First key: \(firstKey)")
+//    print("Second key: \(secondKey)")
+//    print("Iter const: \(iterConst)")
     
     var inter: [UInt8] = []
     
     let outKeyTwo = firstKey
 
     inter = getXOR(from: firstKey, and: iterConst)
-    print("Inter after XOR: \(inter)")
+//    print("Inter after XOR: \(inter)")
     inter = getS(from: inter)
-    print("Inter after S: \(inter)")
+//    print("Inter after S: \(inter)")
     inter = getTransformationLForFN(for: inter)
-    print("Inter after L: \(inter)")
+//    print("Inter after L: \(inter)")
     
     let outKeyOne = getXOR(from: inter, and: secondKey)
-    print("Out key #1: \(outKeyOne)")
-    print("Out key #2: \(outKeyTwo)")
+//    print("Out key #1: \(outKeyOne)")
+//    print("Out key #2: \(outKeyTwo)")
 
     var key = Array(
         repeating: Array(repeating: UInt8(0x00), count: 16),
@@ -323,9 +323,9 @@ func expandKeys(with keyOne: [UInt8], and keyTwo: [UInt8]) {
     iter12[0] = keyOne
     iter12[1] = keyTwo
     
-    print("Keys in expand func")
-    print(iterK[0])
-    print(iterK[1])
+//    print("Keys in expand func")
+//    print(iterK[0])
+//    print(iterK[1])
     
     for i in 0..<4 {
         iter34 = getFeistelNetwork(keyOne: iter12[0], keyTwo: iter12[1], withIterC: iterC[0 + 8 * i])
@@ -372,23 +372,23 @@ func kuznechikDencryption(block blk: [UInt8]) -> [UInt8] {
     var i = 8
     outBlk = blk
     outBlk = getXOR(from: outBlk, and: iterK[9])
-    print("OUTBLOCK after XORfirst: \(outBlk)")
+//    print("OUTBLOCK after XORfirst: \(outBlk)")
 
     repeat {
         
         outBlk = getReverseL(for: outBlk)
-        print("OUTBLOCK after RL: \(outBlk)")
+//        print("OUTBLOCK after RL: \(outBlk)")
         outBlk = getReverseS(from: outBlk)
-        print("OUTBLOCK after RS: \(outBlk)")
+//        print("OUTBLOCK after RS: \(outBlk)")
         outBlk = getXOR(from: iterK[i], and: outBlk)
-        print("OUTBLOCK after XOR: \(outBlk)")
+//        print("OUTBLOCK after XOR: \(outBlk)")
         i -= 1
         
     } while i >= 0
     
         return outBlk
 }
-//MARK: -
+//MARK: - Convertation Functions
 
 func stringToArray(str txt: String) -> [String] {
     var openText = txt
@@ -396,7 +396,7 @@ func stringToArray(str txt: String) -> [String] {
     var array: [String] = []
     var tempStr: String = ""
     var tempChar = ""
-    
+
     repeat {
         for _ in 1...2 {
             tempChar = String(openText.remove(at: startIndex))
@@ -411,7 +411,32 @@ func stringToArray(str txt: String) -> [String] {
 func convertArrayToBytes(convert arr: [String]) -> [UInt8] {
     arr.map{UInt8($0, radix: 16)!}
 }
-//ФУНКЦИЯ РАЗБИЕНИЯ ОСВНОВНОГО КЛЮЧА К ДЛИНОЙ 256 бит на ДВА КЛЮЧА К1, К2 ДЛИНОЙ 128 БИТ
+
+//ФУНКЦИЯ ПОДГОТАВЛИВАЕТ ОТКРЫТЫЙ ТЕКСТ К ШИФРОВАНИЮ
+func stringToBytes(for stringToEncryption: String) -> [UInt8] {
+    let arrayOfString = stringToArray(str: stringToEncryption)
+    let arrayOfBytes = convertArrayToBytes(convert: arrayOfString)
+    return arrayOfBytes
+}
+
+func bytesToString(for decryptedBytes: [UInt8]) -> [String] {
+    decryptedBytes.map {String($0, radix: 16)}
+}
+
+func arrayToString(for decryptedString: [String]) -> String {
+    var resultString = ""
+    for stringByte in decryptedString {
+        resultString += stringByte
+    }
+    return resultString
+}
+
+//ФУНКЦИЯ КОНВЕРТИРУЕТ МАССИВ БАЙТОВ ПОСЛЕ ДЕШИФРОВКИ В СТРОКУ
+func decryptedString(for decryptedBytes: [UInt8]) -> String {
+    let arrayOfString = bytesToString(for: decryptedBytes)
+    let resultString = arrayToString(for: arrayOfString)
+    return resultString
+}
 
 func getStringPairOfKeys(key fullKey: String) -> [String] {
 
@@ -427,7 +452,6 @@ func getStringPairOfKeys(key fullKey: String) -> [String] {
     return pairOfKyes
 }
 
-
 func getFirstPairOfKeys(for keys: [String]) -> [[UInt8]] {
     var twoKyes: [[UInt8]] = []
     var tempStringArray: [String] = []
@@ -437,5 +461,3 @@ func getFirstPairOfKeys(for keys: [String]) -> [[UInt8]] {
     }
     return twoKyes
 }
-
-
