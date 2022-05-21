@@ -375,7 +375,6 @@ func kuznechikDencryption(block blk: [UInt8]) -> [UInt8] {
 //    print("OUTBLOCK after XORfirst: \(outBlk)")
 
     repeat {
-        
         outBlk = getReverseL(for: outBlk)
 //        print("OUTBLOCK after RL: \(outBlk)")
         outBlk = getReverseS(from: outBlk)
@@ -383,7 +382,6 @@ func kuznechikDencryption(block blk: [UInt8]) -> [UInt8] {
         outBlk = getXOR(from: iterK[i], and: outBlk)
 //        print("OUTBLOCK after XOR: \(outBlk)")
         i -= 1
-        
     } while i >= 0
     
         return outBlk
@@ -432,7 +430,7 @@ func arrayToString(for decryptedString: [String]) -> String {
 }
 
 //ФУНКЦИЯ КОНВЕРТИРУЕТ МАССИВ БАЙТОВ ПОСЛЕ ДЕШИФРОВКИ В СТРОКУ
-func decryptedString(for decryptedBytes: [UInt8]) -> String {
+func getString(for decryptedBytes: [UInt8]) -> String {
     let arrayOfString = bytesToString(for: decryptedBytes)
     let resultString = arrayToString(for: arrayOfString)
     return resultString

@@ -212,3 +212,7 @@ print(b1) // "10101"
 let b2 = "10100100"
 let d2 = Int(b2, radix: 2)!
 print(d2) // 22
+
+let key = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef"
+var shufledKey = key.shuffled()
+print(shufledKey.count)
