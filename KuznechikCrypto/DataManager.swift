@@ -13,7 +13,7 @@ class DataManager {
     
     //Общий ключ длинной 256 бит
     
-    var openText = "1122334455667711ffeeddccbbaa9988"
+    var openText = "1122334455667700ffeeddccbbaa9988"
     
     var fullKey = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef"
 

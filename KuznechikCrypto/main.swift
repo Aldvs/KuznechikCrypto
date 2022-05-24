@@ -7,8 +7,8 @@
 
 import Foundation
 
-let openText = DataManager.shared.openText
-let fullKey = DataManager.shared.fullKey
+let openText = "1122334455667700ffeeddccbbaa9988"
+let fullKey = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef"
 
 func encryptionFunc(block openText: String, master key: String) -> String {
     
@@ -35,22 +35,10 @@ func prepareKeys(master key: String) {
 
 }
 
-////ШИФРОТЕКСТ
-//print(openText)
-//var block = stringToBytes(for: openText)
-//
-//let ourStringFirstKeys = getStringPairOfKeys(key: fullKey)
-
-//ПЕРВАЯ ПАРА КЛЮЧЕЙ
-//let firstPairOfKeys = getFirstPairOfKeys(for: ourStringFirstKeys)
-//print(firstPairOfKeys[0])
-//print(firstPairOfKeys[1])
-
-//expandKeys(with: firstPairOfKeys[0], and: firstPairOfKeys[1])
-
 var encryptedBlock = encryptionFunc(block: openText, master: fullKey)
 print("ENCRYPTED BLOCK ____________________________")
 print(encryptedBlock)
+print(encryptedBlock.count)
 
 var decryptedBlock = decryptionFunc(entireText: encryptedBlock)
 print("DECRYPTED BLOCK ____________________________")

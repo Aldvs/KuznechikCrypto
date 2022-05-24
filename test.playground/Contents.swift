@@ -1,5 +1,5 @@
 import Foundation
-
+import CryptoKit
 //func pad(string : String, toSize: Int) -> String {
 //  var padded = string
 //  for _ in 0..<(toSize - string.count) {
@@ -189,30 +189,41 @@ import Foundation
 //print(reveersedL)
 
 //16 to 10
-let h2 = "E6"
+let h2 = "9"
 let d4 = Int(h2, radix: 16)!
 print(d4)
 
 //10 to 16
-let d3 = 185
+let d3 = 9
 let h1 = String(d3, radix: 16)
 print(h1)
 
 //16 to 2
-let h4 = "01"
+let h4 = "e0"
 let b4 = String(Int(h4, radix: 16)!, radix: 2)
 print(b4) // "1111101011001110"
 
 // 10 to 2
-let d1 = 1
+let d1 = 9
 let b1 = String(d1, radix: 2)
 print(b1) // "10101"
 
 // 2 to 10
-let b2 = "10100100"
+let b2 = "00000100"
 let d2 = Int(b2, radix: 2)!
 print(d2) // 22
 
-let key = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef"
-var shufledKey = key.shuffled()
-print(shufledKey.count)
+//let key = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef"
+//var shufledKey = key.shuffled()
+//print(shufledKey.count)
+//let password = "passworddogcat"
+//let data = Data(password.utf8)
+//let digest = SHA256.hash(data: data)
+//let hash = digest.compactMap { String(format: "%02x", $0)}.joined()
+//print(hash)
+//print(hash.count)
+var openText = "1122334455667700ffeeddccbbaa9988"
+var fullKey = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef"
+fullKey.shuffled()
+print(openText.count)
+print(fullKey.count)

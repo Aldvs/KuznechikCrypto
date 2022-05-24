@@ -418,21 +418,39 @@ func stringToBytes(for stringToEncryption: String) -> [UInt8] {
 }
 
 func bytesToString(for decryptedBytes: [UInt8]) -> [String] {
-    decryptedBytes.map {String($0, radix: 16)}
+    print("[BYTES] \(decryptedBytes)")
+    var result: [String] = []
+    var ultraResult: [String] = []
+    result = decryptedBytes.map {String($0, radix: 16)}
+    for str in result {
+        if str.count != 2 {
+            ultraResult.append("0\(str)")
+        } else {
+            ultraResult.append(str)
+        }
+    }
+    print("[STRING]\(ultraResult)")
+    return ultraResult
 }
 
 func arrayToString(for decryptedString: [String]) -> String {
     var resultString = ""
     for stringByte in decryptedString {
-        resultString += stringByte
+        if stringByte == "0" {
+            resultString += "\(stringByte)0"
+        } else {
+            resultString += stringByte
+        }
     }
     return resultString
 }
 
 //ФУНКЦИЯ КОНВЕРТИРУЕТ МАССИВ БАЙТОВ ПОСЛЕ ДЕШИФРОВКИ В СТРОКУ
 func getString(for decryptedBytes: [UInt8]) -> String {
+    print("КОЛИЧЕСТВО ЗАШЕДШИХ БИТОВ ДЛЯ КОНВЕРТАЦИИ В СТРОКУ 16 - \(decryptedBytes.count)")
     let arrayOfString = bytesToString(for: decryptedBytes)
     let resultString = arrayToString(for: arrayOfString)
+    print("КОЛИЧЕСТВО ВЫШЕДШИХ СИМВОЛОВ ДЛЯ КОНВЕРТАЦИИ В СТРОКУ 32 - \(resultString.count)")
     return resultString
 }
 
