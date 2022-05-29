@@ -262,12 +262,17 @@ func getIterativeConstants() {
     }
     
 //    print(iterativeNumbers)
-    print("ITERATIVE CONSTANTS ____________________________")
-    for const in iterC {
-        print("\(const)")
-    }
+    print("ИТЕРАЦИОННЫЕ КОНСТАНТЫ____________________________")
+    var i = 1
+    repeat {
+        for const in iterC {
+            print("Константа № \(i): \(getString(for: const))")
+            i += 1
+        }
+    } while i != 33
+    
 //    print(iterC)
-    print("ITERATIVE CONSTANTS ____________________________")
+    print("ИТЕРАЦИОННЫЕ КОНСТАНТЫ____________________________\n")
 }
 
 //функция, выполняющая преобразования ячейки Фейстеля
@@ -340,19 +345,22 @@ func expandKeys(with keyOne: [UInt8], and keyTwo: [UInt8]) {
         iterK[2 * i + 2] = iter12[0]
         iterK[2 * i + 3] = iter12[1]
     }
-    print("ITERATIVE KEYS ____________________________")
-    for key in iterK {
-        print("\(key)")
-    }
+    print("ИТЕРАЦИОННЫЕ КЛЮЧИ____________________________")
+    var i = 1
+    repeat {
+        for key in iterK {
+            print("Ключ № \(i): \(getString(for: key))")
+            i += 1
+        }
+    } while i != 11
+
 //    print(iterK)
-    print("ITERATIVE KEYS ____________________________")
+    print("ИТЕРАЦИОННЫЕ КЛЮЧИ____________________________")
 }
 //MARK: -
 
 // функция шифрования блока
 func kuznechikEncryption(block blk: [UInt8]) -> [UInt8] {
-    print("BLOCK")
-    print(blk)
     var outBlk: [UInt8] = []
     outBlk = blk
     
@@ -418,7 +426,7 @@ func stringToBytes(for stringToEncryption: String) -> [UInt8] {
 }
 
 func bytesToString(for decryptedBytes: [UInt8]) -> [String] {
-    print("[BYTES] \(decryptedBytes)")
+//    print("[BYTES] \(decryptedBytes)")
     var result: [String] = []
     var ultraResult: [String] = []
     result = decryptedBytes.map {String($0, radix: 16)}
@@ -429,7 +437,7 @@ func bytesToString(for decryptedBytes: [UInt8]) -> [String] {
             ultraResult.append(str)
         }
     }
-    print("[STRING]\(ultraResult)")
+//    print("[STRING]\(ultraResult)")
     return ultraResult
 }
 
@@ -447,10 +455,10 @@ func arrayToString(for decryptedString: [String]) -> String {
 
 //ФУНКЦИЯ КОНВЕРТИРУЕТ МАССИВ БАЙТОВ ПОСЛЕ ДЕШИФРОВКИ В СТРОКУ
 func getString(for decryptedBytes: [UInt8]) -> String {
-    print("КОЛИЧЕСТВО ЗАШЕДШИХ БИТОВ ДЛЯ КОНВЕРТАЦИИ В СТРОКУ 16 - \(decryptedBytes.count)")
+//    print("КОЛИЧЕСТВО ЗАШЕДШИХ БИТОВ ДЛЯ КОНВЕРТАЦИИ В СТРОКУ 16 - \(decryptedBytes.count)")
     let arrayOfString = bytesToString(for: decryptedBytes)
     let resultString = arrayToString(for: arrayOfString)
-    print("КОЛИЧЕСТВО ВЫШЕДШИХ СИМВОЛОВ ДЛЯ КОНВЕРТАЦИИ В СТРОКУ 32 - \(resultString.count)")
+//    print("КОЛИЧЕСТВО ВЫШЕДШИХ СИМВОЛОВ ДЛЯ КОНВЕРТАЦИИ В СТРОКУ 32 - \(resultString.count)")
     return resultString
 }
 

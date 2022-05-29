@@ -10,6 +10,11 @@ import Foundation
 let openText = "1122334455667700ffeeddccbbaa9988"
 let fullKey = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef"
 
+print("--------------------------------------------------------------")
+print("ИСХОДНЫЙ БЛОК: \(openText) \n")
+print("МАСТЕР КЛЮЧ: \(fullKey)")
+print("--------------------------------------------------------------")
+
 func encryptionFunc(block openText: String, master key: String) -> String {
     
     let block = stringToBytes(for: openText)
@@ -36,13 +41,12 @@ func prepareKeys(master key: String) {
 }
 
 var encryptedBlock = encryptionFunc(block: openText, master: fullKey)
-print("ENCRYPTED BLOCK ____________________________")
-print(encryptedBlock)
-print(encryptedBlock.count)
 
+print("--------------------------------------------------------------")
+print("ШИФРОТЕКСТ: \(encryptedBlock) \n")
 var decryptedBlock = decryptionFunc(entireText: encryptedBlock)
-print("DECRYPTED BLOCK ____________________________")
-print(decryptedBlock)
+print("РАСШИФРОВАННЫЙ ТЕКСТ: \(decryptedBlock)")
+print("--------------------------------------------------------------")
 
 
 
